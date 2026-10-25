@@ -1,0 +1,22 @@
+local home = assert(os.getenv("HOME"), "HOME is not set")
+local scripts = home .. "/.config/hypr/scripts"
+local cursor = "Bibata-Modern-Classic"
+hl.env("XCURSOR_THEME", cursor)
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", cursor)
+hl.env("HYPRCURSOR_SIZE", "24")
+
+hl.on("hyprland.start", function()
+    hl.exec_cmd("hyprctl setcursor " .. cursor .. " 24")
+    hl.exec_cmd(scripts .. "/startup.sh")
+    hl.exec_cmd("killall -q waybar; waybar")
+    hl.exec_cmd("swaync &")
+    hl.exec_cmd("hypridle &")
+    hl.exec_cmd(scripts .. "/polkit.sh")
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd("pypr &")
+    hl.exec_cmd("systemctl --user start skwd-daemon")
+    hl.dispatch(hl.dsp.focus({ monitor = "HDMI-A-1" }))
+    hl.exec_cmd("corectrl &")
+end)

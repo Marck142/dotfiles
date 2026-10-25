@@ -1,0 +1,88 @@
+# Зависимости конфигов (официальные репозитории). Один пакет в строке, # — комментарий.
+# Предполагается, что базовая система (base, linux, grub, ...) уже установлена через archinstall.
+
+# --- базовые инструменты
+base-devel
+git
+stow
+jq
+wget
+zip
+unzip
+tree
+bc
+sudo
+openssh
+nano
+networkmanager
+
+# --- Hyprland и окружение
+hyprland
+hyprlock
+hypridle
+hyprpolkitagent
+xdg-desktop-portal-hyprland
+xdg-utils
+waybar
+swaync
+rofi
+cliphist
+wl-clipboard
+grim
+slurp
+swappy
+wf-recorder
+imagemagick
+libnotify
+playerctl
+brightnessctl
+ddcutil
+awww
+sddm
+kitty
+thunar
+yazi
+
+# --- Qt/GTK, темы
+qt5-wayland
+qt6-wayland
+qt5ct
+qt6ct
+qt6-tools
+kvantum
+nwg-look
+papirus-icon-theme
+
+# --- звук
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+gst-plugin-pipewire
+libpulse
+pamixer
+pavucontrol
+
+# --- шрифты
+noto-fonts
+noto-fonts-emoji
+ttf-dejavu
+ttf-liberation
+ttf-jetbrains-mono-nerd
+otf-font-awesome
+
+# --- терминал
+fish
+starship
+zoxide
+fzf
+bat
+eza
+fastfetch
+btop
+htop
+cava
+gum
+thefuck
+mpv

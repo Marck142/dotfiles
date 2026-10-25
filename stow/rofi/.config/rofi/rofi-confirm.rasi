@@ -1,0 +1,99 @@
+/*****----- Configuration -----*****/
+configuration {
+    show-icons: true;
+    hover-select:               true;
+    me-select-entry:            "MouseSecondary";
+    me-accept-entry:            "MousePrimary";
+}
+
+/*****----- Global Properties -----*****/
+@import "~/.config/rofi/themes/rofi-colors.rasi"
+@import "~/.config/rofi/rofi-vars.rasi"
+
+
+/*****----- Main Window -----*****/
+window {
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       500px;
+    border:                      @border-size;
+    border-color:                @foreground;
+    border-radius:               @radius;
+    cursor:                      "default";
+    background-color:            @background;
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    spacing:                     30px;
+    padding:                     30px;
+    background-color:            transparent;
+    children:                    [ "message", "listview" ];
+}
+
+/*****----- Message -----*****/
+message {
+    margin:                      0px;
+    padding:                     20px;
+    border-radius:               @radius;
+    background-color:            transparent;
+    text-color:                  @foreground;
+}
+textbox {
+    background-color:            inherit;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+    placeholder-color:           @foreground;
+    blink:                       true;
+    markup:                      true;
+}
+
+/*****----- Listview -----*****/
+listview {
+    columns:                     2;
+    lines:                       1;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     30px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    /* Указываем Rofi отображать исключительно текст ("Да/Нет"), убирая индикаторы */
+    children:                    [ "element-text" ];
+    spacing:                     0px;
+    margin:                      0px;
+    /* Делаем паддинги сбалансированными, чтобы кнопки были аккуратными и широкими */
+    padding:                     20px 10px;
+    border:                      0px solid;
+    border-radius:               @radius;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+element-text {
+    font:                        "JetBrains Mono Nerd Font 24";
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    /* Центрируем текст внутри кнопок на 100% */
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+element selected.normal {
+    background-color:            @foreground;
+    text-color:                  @background;
+    border:                      0px solid; /* Гарантированно глушим прямоугольники при выборе */
+}

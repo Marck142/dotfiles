@@ -1,0 +1,5 @@
+.config/kitty/colors-kitty.conf .cache/wal/colors-kitty.conf
+.config/rofi/themes/rofi-colors.rasi .cache/wal/colors-rofi-dark.rasi
+.config/waybar/style/theme.css .cache/wal/colors-waybar.css
+.config/hypr/configs/colors-hyprland.conf .cache/wal/colors-hyprland.conf
+.config/swaync/colors.css .cache/wal/colors-swaync.css

@@ -1,0 +1,78 @@
+Основные действия
+Super + Enter  |  Открыть терминал (kitty)
+Super + Shift + Enter  |  Открыть плавающий терминал
+Super + Q  |  Закрыть окно
+Super + Shift + M  |  Выйти из Hyprland
+Super + V  |  Переключить плавающий режим окна
+Super + F  |  Полный экран
+Super + X  |  Меню питания
+Super + Shift + L  |  Заблокировать экран
+
+Запуск приложений
+Super + E  |  Файловый менеджер (Thunar)
+Super + Shift + E  |  Терминальный файловый менеджер (Yazi)
+Super + D  |  Меню запуска (Rofi)
+Super + C  |  VS Code
+Super + B  |  Браузер
+Super + A  |  Переключить scratchpad (терминал)
+Super + N  |  Свернуть/развернуть окно в special
+Super + Shift + N  |  Показать/скрыть special workspace
+Super + F1  |  Переключить анимации (для производительности)
+Super + S  |  Настройки
+
+Управление окнами
+Super + H/J/K/L  |  Переместить фокус (←↓↑→)
+Super + Ctrl + H/J/K/L  |  Переместить окно (←↓↑→)
+Super + Стрелки  |  Изменить размер окна
+Super + G  |  Переключить группировку окон
+Super + Shift + I  |  Переключить разделение (dwindle)
+Super + Shift + P  |  Псевдотайлинг
+Super + M  |  Установить соотношение 0.3
+Super + Alt + V  |  Все окна плавающие
+Alt + Tab  |  Переключить окно
+Super + Tab  |  Список окон (Rofi)
+Super + ЛКМ (зажать)  |  Переместить окно
+Super + ПКМ (зажать)  |  Изменить размер окна
+
+Воркспейсы
+Super + 0-9  |  Переключиться на воркспейс 1-10
+Super + Shift + 0-9  |  Переместить окно на воркспейс 1-10
+Super + Alt + 0-9  |  Переместить окно без переключения
+Super + Колёсико вниз  |  Следующий воркспейс
+Super + Колёсико вверх  |  Предыдущий воркспейс
+Свайп 3 пальца влево/вправо  |  Переключение воркспейсов (жест)
+
+Внешний вид и скрипты
+Super + W  |  Сменить обои
+Super + Alt + E  |  Переключить движок обоев
+Super + Shift + W  |  Выбрать тему обоев 1
+Super + Ctrl + Shift + W  |  Выбрать тему обоев 2
+Super + Alt + D  |  Выбрать тему Rofi
+Super + Alt + C  |  Буфер обмена (история)
+Super + Alt + W  |  Очистить буфер обмена
+Super + Shift + D  |  Эмодзи (Rofi)
+Super + Alt + X  |  Выбрать тему меню питания
+Super + Ctrl + W  |  Переключить раскладку Waybar
+Super + Ctrl + E  |  Редактировать дотфайлы
+Super + Alt + B  |  Запустить shell
+Super + Alt + L  |  Переключить тёмную/светлую тему
+Super + T  |  Тёмная/светлая тема
+Super + Ctrl + P  |  Перегенерировать цвета
+Super + Shift + H  |  Справка по клавишам
+
+Системные
+Super + Ctrl + R  |  Перезагрузить Hyprland
+Ctrl + U  |  Обновить систему
+Super + Ctrl + U  |  Обновить Hypr конфиг
+Super + Shift + R  |  Перезапустить startup скрипты
+Super + Alt + U  |  Удалить дотфайлы
+Print  |  Скриншот
+Ctrl + Esc  |  Перезагрузить Waybar
+Ctrl + Alt + Esc  |  Скрыть/показать Waybar
+
+Аудио и яркость
+F2 / XF86MonBrightnessDown  |  Уменьшить яркость
+F3 / XF86MonBrightnessUp  |  Увеличить яркость
+F9 / XF86AudioMute  |  Выключить звук
+F10 / XF86AudioLowerVolume  |  Уменьшить громкость
+F11 / XF86AudioRaiseVolume  |  Увеличить громкость

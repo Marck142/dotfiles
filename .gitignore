@@ -1,0 +1,24 @@
+.dotfiles-backup-*/
+*.log
+*.swp
+__pycache__/
+# секреты
+*.env
+.env*
+secrets*
+*.gpg
+id_*
+# кэш Hyprland (кроме маленьких файлов состояния, которые собирает collect.sh)
+stow/hypr/.config/hypr/.cache/*
+!stow/hypr/.config/hypr/.cache/.nightlight
+!stow/hypr/.config/hypr/.cache/.browser
+!stow/hypr/.config/hypr/.cache/.current_mode
+# ссылки pywal и файлы, которые fish/pywal переписывают сами
+stow/fish/.config/fish/fish_variables
+stow/*/.config/*/colors-*.conf
+stow/*/.config/*/colors.css
+stow/*/.config/kitty/colors-kitty.conf
+stow/*/.config/rofi/themes/rofi-colors.rasi
+stow/*/.config/waybar/style/theme.css
+stow/*/.config/hypr/configs/colors-hyprland.conf
+stow/*/.config/swaync/colors.css

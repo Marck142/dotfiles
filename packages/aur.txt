@@ -1,0 +1,10 @@
+# Зависимости конфигов из AUR (ставятся через yay; yay ставится автоматически).
+pyprland
+pywal-git
+grimblast-git
+skwd-daemon-bin
+skwd-wall
+sddm-silent-theme
+bibata-cursor-theme
+tokyonight-gtk-theme-git
+redhat-fonts

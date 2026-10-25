@@ -1,0 +1,8 @@
+{
+    "colorscheme": "dark",
+    "backend": "colorz",
+    "terminal": "xterm",
+    "reload_theme": true,
+    "save_colorscheme": true,
+    "export_all_templates": true
+}
