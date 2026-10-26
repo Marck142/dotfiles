@@ -21,7 +21,6 @@ end
 #===============================================#
 source ~/.config/fish/conf.d/aliases.fish
 source ~/.config/fish/functions/functions.fish
-source ~/.config/fish/conf.d/personal.fish
 
 #===============================================#
 #           zoxide and thefuck

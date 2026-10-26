@@ -19,9 +19,9 @@ printf "\n  => Выберите настройки для изменения\n  
 echo
 _hyprland_choice=$(gum choose \
     --header "Выберите настройки:" \
-    --header.foreground "#d4d8d8" \
+    --header.foreground "#ecb8d4" \
     --no-limit \
-    --cursor.foreground "#d4d8d8" \
+    --cursor.foreground "#ecb8d4" \
     "размер рамки" \
     "скругление" \
     "внутренний отступ" \
