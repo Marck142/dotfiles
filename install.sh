@@ -96,6 +96,38 @@ install_system() {
     fi
 }
 
+install_sddm_sudoers() {
+    log "Правила sudoers для SDDM-темы"
+    local rule="/etc/sudoers.d/sddm-theme"
+    local user="${SUDO_USER:-$USER}"
+    local theme="/usr/share/sddm/themes/silent/configs/default-left.conf"
+    local bg="/usr/share/sddm/themes/silent/backgrounds/sddm_current_bg.png"
+    local cache="$HOME/.config/hypr/.cache"
+
+    # файлы, к которым будут применяться правила, должны существовать
+    if [[ ! -f "$theme" ]]; then
+        warn "Не найден $theme — правило для sed не ставлю."
+        FAILED+=("sudoers: $theme отсутствует")
+        return
+    fi
+
+    local t; t="$(mktemp)"
+    trap 'rm -f "$t"' RETURN
+
+    {
+        echo "$user ALL=(root) NOPASSWD: /usr/bin/cp $cache/current_wallpaper.png $bg"
+        echo "$user ALL=(root) NOPASSWD: /usr/bin/cp $theme $theme.bak"
+        echo "$user ALL=(root) NOPASSWD: /usr/bin/sed -i * $theme"
+    } > "$t"
+
+    if run sudo visudo -cf "$t"; then
+        run sudo install -m 0440 -o root -g root "$t" "$rule"
+        echo "  Правило установлено: $rule"
+    else
+        FAILED+=("sudoers: $rule")
+    fi
+}
+
 enable_services() {
     log "Службы и оболочка"
     for s in NetworkManager sddm; do
@@ -108,7 +140,7 @@ enable_services() {
 ((PKGS))  && install_native
 ((PKGS && AUR)) && install_aur
 ((LINKS)) && { link_configs; link_wal; }
-((SYSTEM)) && install_system
+((SYSTEM)) && { install_system; install_sddm_sudoers; }
 ((PKGS))  && enable_services
 
 log "Готово"
