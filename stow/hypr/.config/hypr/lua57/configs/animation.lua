@@ -15,3 +15,40 @@ hl.animation({ leaf = "fade", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "overshot", style = "slide" })
 hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "overshot", style = "slide" })
 hl.animation({ leaf = "layersOut", enabled = true, speed = 7, bezier = "overshot", style = "slide 10%" })
+
+local _, hyprfocus_missing = hl.get_config("plugin.hyprfocus.mouse_focus_animation")
+if not hyprfocus_missing then
+    hl.animation({ leaf = "hyprfocusIn", enabled = true, speed = 3, bezier = "default" })
+    hl.animation({ leaf = "hyprfocusOut", enabled = true, speed = 4, bezier = "default" })
+    hl.config({
+        plugin = {
+            hyprfocus = {
+                enable = true,
+                animate_floating = true,
+                keyboard_focus_animation = "slide",
+                mouse_focus_animation = "none",
+                fade_opacity = 0.6,
+                slide_height = 8,
+            },
+        },
+    })
+end
+
+if hl.plugin and hl.plugin.dynamic_cursors then
+    hl.config({
+        plugin = {
+            dynamic_cursors = {
+                enabled = true,
+                mode = "stretch",
+                threshold = 4,
+                stretch = { limit = 4500 },
+                shake = { enabled = false, effects = false },
+            },
+        },
+    })
+end
+
+local _, omarchy_fx_missing = hl.get_config("plugin.omarchy_fx.shake_enabled")
+if not omarchy_fx_missing then
+    hl.config({ plugin = { omarchy_fx = { shake_enabled = false } } })
+end

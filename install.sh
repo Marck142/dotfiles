@@ -4,8 +4,8 @@
 #   ./install.sh --dry-run     только показать, что будет сделано
 #   ./install.sh --no-pkgs     без установки пакетов (только конфиги)
 #   ./install.sh --no-aur      без AUR
-#   ./install.sh --no-links    без раскладки конфигов
-#   ./install.sh --system      ещё и системные файлы из system/ (/etc, /usr, /boot; старые копируются с суффиксом ~)
+#   ./install.sh --no-links    без копирования конфигов
+#   ./install.sh --system      ещё и системные файлы из system/ (/etc, /usr, /boot; старые сохраняются)
 set -uo pipefail
 cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -24,8 +24,8 @@ run()  { if ((DRY)); then echo "  + $*"; else "$@"; fi; }
 list() { [[ -f "$1" ]] && sed 's/#.*//' "$1" | tr -s ' \t' '\n' | grep . || true; }
 
 [[ $EUID -ne 0 ]] || { warn "Не запускайте от root: скрипт сам вызовет sudo."; exit 1; }
-command -v pacman >/dev/null || { warn "Нужен Arch Linux (pacman не найден)."; exit 1; }
-if ((!DRY)); then
+if ((PKGS)); then command -v pacman >/dev/null || { warn "Нужен Arch Linux (pacman не найден)."; exit 1; }; fi
+if ((!DRY && (PKGS || SYSTEM))); then
     sudo -v || exit 1
     while true; do sudo -n true; sleep 50; kill -0 "$$" 2>/dev/null || exit; done 2>/dev/null &
 fi
@@ -34,8 +34,8 @@ install_native() {
     log "Пакеты из официальных репозиториев"
     mapfile -t L < <(list packages/pacman.txt)
     if ! run sudo pacman -Syu --needed --noconfirm "${L[@]}"; then
-        warn "Общая установка не прошла, ставлю по одному"
-        for p in "${L[@]}"; do run sudo pacman -S --needed --noconfirm "$p" || FAILED+=("pacman: $p"); done
+        warn "Обновление или установка пакетов не удались; повторите после устранения ошибки."
+        FAILED+=("pacman: обновление и установка пакетов")
     fi
 }
 
@@ -45,48 +45,86 @@ install_aur() {
         if ((DRY)); then echo "  + yay-bin: git clone + makepkg -si"
         else
             local t; t="$(mktemp -d)"
-            { git clone --depth 1 https://aur.archlinux.org/yay-bin.git "$t/yay-bin" && (cd "$t/yay-bin" && makepkg -si --noconfirm); } || { FAILED+=("yay"); return; }
+            { git clone --depth 1 https://aur.archlinux.org/yay-bin.git "$t/yay-bin" && (cd "$t/yay-bin" && makepkg -si --noconfirm); } || { rm -rf "$t"; FAILED+=("yay"); return; }
+            rm -rf "$t"
         fi
     fi
     while read -r p; do run yay -S --needed --noconfirm "$p" || FAILED+=("aur: $p"); done < <(list packages/aur.txt)
 }
 
-link_configs() {
-    log "Раскладка конфигов (stow)"
-    command -v stow >/dev/null || { FAILED+=("stow не установлен"); return; }
-    local bak="$HOME/.dotfiles-backup-$(date +%Y%m%d-%H%M%S)" p f
-    for p in stow/*/; do
-        p="$(basename "$p")"
-        # конфликтующие файлы переносим в резервную папку, а не удаляем
-        while IFS= read -r f; do
-            [[ -n "$f" && ( -e "$HOME/$f" || -L "$HOME/$f" ) ]] || continue
-            run mkdir -p "$bak/$(dirname "$f")"; run mv "$HOME/$f" "$bak/$f"
-        done < <(stow -d stow -t "$HOME" -n "$p" 2>&1 | sed -n -e 's/.*over existing target \(.*\) since .*/\1/p' -e 's/.*existing target [^:]*: //p' | sed 's/ => .*//')
-        run stow -d stow -t "$HOME" -R "$p" || FAILED+=("stow: $p")
+install_hypr_plugins() {
+    log "Плагины Hyprland"
+    if ((DRY)); then
+        cat <<'EOF'
+  + hyprpm update
+  + hyprpm add https://github.com/hyprwm/hyprland-plugins
+  + hyprpm add https://github.com/VirtCode/hypr-dynamic-cursors
+  + hyprpm add https://github.com/stoneynutcase/omarchy-fx
+  + hyprpm enable hyprfocus dynamic-cursors omarchy-fx
+EOF
+        return
+    fi
+    command -v hyprpm >/dev/null || { FAILED+=("hyprpm не установлен"); return; }
+
+    hyprpm update || { warn "hyprpm update завершился с ошибкой; проверьте вывод сборки плагинов."; FAILED+=("hyprpm: обновление плагинов или заголовков"); }
+
+    local repo
+    for repo in \
+        https://github.com/hyprwm/hyprland-plugins \
+        https://github.com/VirtCode/hypr-dynamic-cursors \
+        https://github.com/stoneynutcase/omarchy-fx; do
+        printf 'Y\n' | hyprpm add "$repo" || true
     done
-    # файлы, которые приложения переписывают целиком (симлинк бы сломался): копируем, ничего не затирая
-    [[ -d copy ]] && run cp -an copy/. "$HOME/"
-    [[ -d "$bak" ]] && echo "  Заменённые файлы сохранены в $bak"
+
+    for plugin in hyprfocus dynamic-cursors omarchy-fx; do
+        hyprpm enable "$plugin" || FAILED+=("hyprpm enable: $plugin")
+    done
+    hyprpm update || FAILED+=("hyprpm: сборка плагинов")
+    [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]] && hyprpm reload || true
 }
 
-link_wal() {
-    # ссылки на цвета pywal: в репозитории их нет (они указывали бы на /home/<чужой пользователь>), создаём под вас
-    [[ -f wal-links.txt ]] || return 0
-    log "Ссылки на цвета pywal"
-    local l t
-    while read -r l t; do
-        [[ -z "$l" || "$l" == \#* ]] && continue
-        run mkdir -p "$(dirname "$HOME/$l")"; run ln -sfn "$HOME/$t" "$HOME/$l"
-    done < wal-links.txt
+copy_configs() {
+    log "Копирование конфигов"
+    local bak="$HOME/.dotfiles-backup-$(date +%Y%m%d-%H%M%S)-$$" root src rel dst parent part current actual
+    local -a parts
+    for root in stow/*/ copy/; do
+        [[ -d "$root" ]] || continue
+        while IFS= read -r -d '' src; do
+            rel=${src#"$root"}; dst="$HOME/$rel"; actual=$src
+            [[ "$rel" == .config/waybar/config && -L "$src" ]] && actual="${root}.config/waybar/configs/minimal-bottom"
+            if [[ ! -e "$actual" ]]; then
+                warn "Пропущена неразрешимая ссылка: $src"; continue
+            fi
+            parent=${rel%/*}; [[ "$parent" == "$rel" ]] && parent=""
+            current=""
+            IFS=/ read -r -a parts <<< "$parent"
+            for part in "${parts[@]}"; do
+                [[ -n "$part" ]] || continue
+                current="${current:+$current/}$part"
+                if [[ -L "$HOME/$current" || ( -e "$HOME/$current" && ! -d "$HOME/$current" ) ]]; then
+                    run mkdir -p "$bak/$(dirname "$current")" && run mv "$HOME/$current" "$bak/$current" || { FAILED+=("backup: $current"); continue 2; }
+                fi
+                run mkdir -p "$HOME/$current" || { FAILED+=("каталог: $current"); continue 2; }
+            done
+            if [[ -e "$dst" || -L "$dst" ]]; then
+                run mkdir -p "$bak/$(dirname "$rel")" && run mv "$dst" "$bak/$rel" || { FAILED+=("backup: $rel"); continue; }
+            fi
+            run cp -L -R --preserve=mode,timestamps "$actual" "$dst" || FAILED+=("копирование: $rel")
+        done < <(find "$root" -mindepth 1 \( -type f -o -type l \) -print0)
+    done
+    [[ -d "$bak" ]] && echo "  Заменённые файлы сохранены в $bak"
+    return 0
 }
 
 install_system() {
     log "Системные файлы из system/"
-    [[ -d system ]] || { warn "Нет папки system/"; return; }
+    [[ -d system ]] || { warn "Нет папки system/"; FAILED+=("нет system/"); return 1; }
     (cd system && find . -type f | sed 's|^\.||')
-    read -rp "Скопировать эти файлы в систему (старые версии сохранятся как файл~)? [y/N] " r
-    [[ "$r" == [yY]* ]] || return
-    run sudo cp -rT --backup=simple system /
+    if ((!DRY)); then
+        read -rp "Скопировать эти файлы в систему (старые версии сохранятся с номером)? [y/N] " r
+        [[ "$r" == [yY]* ]] || return 1
+    fi
+    run sudo cp -rT --backup=numbered system / || { FAILED+=("системные файлы"); return 1; }
     # тема GRUB: подключаем, если ещё не задана
     if command -v grub-mkconfig >/dev/null && compgen -G "/boot/grub/themes/*/theme.txt" >/dev/null \
             && ! grep -q '^GRUB_THEME=' /etc/default/grub; then
@@ -104,15 +142,19 @@ install_sddm_sudoers() {
     local bg="/usr/share/sddm/themes/silent/backgrounds/sddm_current_bg.png"
     local cache="$HOME/.config/hypr/.cache"
 
+    if ((DRY)); then
+        echo "  + проверить и установить $rule"
+        return 0
+    fi
+
     # файлы, к которым будут применяться правила, должны существовать
-    if [[ ! -f "$theme" ]]; then
+    if ((!DRY)) && [[ ! -f "$theme" ]]; then
         warn "Не найден $theme — правило для sed не ставлю."
         FAILED+=("sudoers: $theme отсутствует")
         return
     fi
 
     local t; t="$(mktemp)"
-    trap 'rm -f "$t"' RETURN
 
     {
         echo "$user ALL=(root) NOPASSWD: /usr/bin/cp $cache/current_wallpaper.png $bg"
@@ -121,26 +163,31 @@ install_sddm_sudoers() {
     } > "$t"
 
     if run sudo visudo -cf "$t"; then
-        run sudo install -m 0440 -o root -g root "$t" "$rule"
-        echo "  Правило установлено: $rule"
+        if run sudo install -m 0440 -o root -g root "$t" "$rule"; then
+            echo "  Правило установлено: $rule"
+        else
+            FAILED+=("sudoers: $rule")
+        fi
     else
         FAILED+=("sudoers: $rule")
     fi
+    rm -f "$t"
 }
 
 enable_services() {
     log "Службы и оболочка"
     for s in NetworkManager sddm; do
-        systemctl list-unit-files "$s.service" >/dev/null 2>&1 && run sudo systemctl enable "$s.service" || true
+        run sudo systemctl enable "$s.service" || FAILED+=("служба: $s")
     done
-    run sudo systemctl --global enable pipewire.socket pipewire-pulse.socket wireplumber.service
-    if command -v fish >/dev/null && [[ "$SHELL" != *fish ]]; then run chsh -s "$(command -v fish)"; fi
+    run sudo systemctl --global enable pipewire.socket pipewire-pulse.socket wireplumber.service || FAILED+=("службы PipeWire")
+    if command -v fish >/dev/null && [[ "${SHELL:-}" != *fish ]]; then run chsh -s "$(command -v fish)" || FAILED+=("оболочка fish"); fi
 }
 
 ((PKGS))  && install_native
 ((PKGS && AUR)) && install_aur
-((LINKS)) && { link_configs; link_wal; }
-((SYSTEM)) && { install_system; install_sddm_sudoers; }
+((PKGS))  && install_hypr_plugins
+((LINKS)) && copy_configs
+((SYSTEM)) && { if install_system; then install_sddm_sudoers; fi; }
 ((PKGS))  && enable_services
 
 log "Готово"
@@ -152,7 +199,8 @@ fi
 cat <<'MSG'
 
 Дальше:
-  1. Положите обои в ~/Pictures/Wallpapers и один раз выполните:  wal -i /путь/к/обоям
+  1. Положите обои в ~/Pictures/Wallpapers и запустите ~/.config/hypr/scripts/pywal.sh после выбора обоев.
   2. Перезагрузитесь и на экране входа выберите сессию Hyprland.
-  3. Конфликтовавшие со ссылками старые файлы лежат в ~/.dotfiles-backup-*
+  3. Заменённые файлы лежат в ~/.dotfiles-backup-*
 MSG
+(( ${#FAILED[@]} == 0 ))

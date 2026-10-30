@@ -357,3 +357,23 @@ tooltip label {
   border: 0px;
   border-radius: 15px;
 }
+
+/* Island layout: transparent bar, evenly spaced floating modules. */
+window#waybar { background: transparent; }
+#custom-launch_rofi, #workspaces, #window, #custom-weather, #mpris,
+#custom-updater, #tray, #custom-keyboard, #custom-vpn, #network,
+#pulseaudio, #pulseaudio.microphone, #custom-notify, #battery,
+#backlight, #clock, #custom-power_btn, #power-profiles-daemon,
+#group-power, #group-network, #group-wall, #group-sysinfo {
+  margin: 3px 3px;
+  border-radius: 12px;
+  background: alpha(@background, 0.94);
+  border: 1px solid alpha(@foreground, 0.12);
+  padding: 0 11px;
+}
+#workspaces button { margin: 3px 2px; border-radius: 10px; }
+#workspaces { padding: 0 5px; }
+#group-power > *, #group-network > *, #group-wall > *, #group-sysinfo > * {
+  background: transparent;
+  border: 0;
+}

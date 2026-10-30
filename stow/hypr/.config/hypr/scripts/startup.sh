@@ -2,23 +2,6 @@
 
 scripts_dir="$HOME/.config/hypr/scripts"
 wallpaper="$HOME/.config/hypr/.cache/current_wallpaper.png"
-monitor_config="$HOME/.config/hypr/configs/monitor.conf"
-
-nightlight_value=$(cat "$HOME/.config/hypr/.cache/.nightlight")
-
-# Transition config
-FPS=60
-TYPE="any"
-DURATION=2
-BEZIER=".43,1.19,1,.4"
-SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION --transition-bezier $BEZIER"
-
-if [[ -f "$wallpaper" ]]; then
-    awww-daemon &
-    awww img ${wallpaper} $SWWW_PARAMS
-else
-    "$scripts_dir/Wallpaper.sh"
-fi
 
 # if openbangla keyboard is installed, the
 if [[ -d "/usr/share/openbangla-keyboard" ]]; then
@@ -27,9 +10,11 @@ fi
 
 
 "$scripts_dir/notification.sh" sys
-"$scripts_dir/wallcache.sh"
-"$scripts_dir/pywal.sh"
-"$scripts_dir/system.sh" run &
+if [[ -f "$wallpaper" ]]; then
+    "$scripts_dir/wallcache.sh"
+    "$scripts_dir/pywal.sh"
+fi
+pgrep -f "^/bin/bash $scripts_dir/system.sh" >/dev/null || "$scripts_dir/system.sh" run &
 
 
 #_____ setup monitor ( updated teh monitor.conf for the high resolution and higher refresh rate )

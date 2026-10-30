@@ -12,10 +12,10 @@
     "passthrough": false,
     "gtk-layer-shell": true,
     "reload_style_on_change": true,
-    "height": 20,
-    "margin-top": 5,
-    "margin-left": 5,
-    "margin-right": 5,
+    "height": 40,
+    "margin-top": 8,
+    "margin-left": 10,
+    "margin-right": 10,
 
     "modules-left": [
         "custom/launch_rofi", 

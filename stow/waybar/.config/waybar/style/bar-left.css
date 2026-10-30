@@ -262,3 +262,20 @@ Modules Left
   color: @sapphire;
   font-size: 15px;
 }
+
+/* Shared modern controls */
+#custom-keyboard, #custom-vpn, #custom-updater, #network,
+#pulseaudio, #custom-notify, #battery, #clock, #custom-power_btn, #tray {
+  background: alpha(@background, 0.94);
+  border: 1px solid alpha(@foreground, 0.12);
+  border-radius: 9px;
+  padding: 7px 6px;
+}
+#custom-keyboard { color: @blue; }
+#custom-vpn { color: @mauve; }
+#custom-updater { color: @green; }
+#network { color: @blue; }
+#pulseaudio { color: @mauve; }
+#custom-notify { color: @peach; }
+#battery { color: @green; }
+#custom-power_btn { color: @red; }

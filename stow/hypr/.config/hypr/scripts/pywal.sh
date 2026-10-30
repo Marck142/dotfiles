@@ -2,7 +2,7 @@
 
 scripts_dir="$HOME/.config/hypr/scripts"
 current_wallpaper="$HOME/.config/hypr/.cache/current_wallpaper.png"
-current_mode=$(cat "$HOME/.config/hypr/.cache/.current_mode")
+current_mode=$(cat "$HOME/.config/hypr/.cache/.current_mode" 2>/dev/null || true)
 
 current_wallpaper="$HOME/.config/hypr/.cache/current_wallpaper.png"
 if [[ -f "$current_wallpaper" ]]; then
@@ -22,7 +22,14 @@ colors_file="$HOME/.cache/wal/colors.json"
 
 # hyprland colors.
 hyprcolor="$HOME/.config/hypr/configs/colors-hyprland.conf"
-ln -sf "$HOME/.cache/wal/colors-hyprland.conf" "$HOME/.config/hypr/configs/"
+copy_color() {
+    local src="$1" dst="$2"
+    [[ -f "$src" ]] || { echo "Нет файла цветов: $src" >&2; return 1; }
+    mkdir -p "$(dirname "$dst")" || return 1
+    [[ -L "$dst" ]] && rm -f "$dst"
+    cp "$src" "$dst"
+}
+copy_color "$HOME/.cache/wal/colors-hyprland.conf" "$hyprcolor"
 
 # setting kitty colors 
 kitty_colors="$HOME/.cache/wal/colors-kitty.conf"
@@ -42,19 +49,19 @@ inactive_border_color=$(extract_color "color5")
 sed -i "s/active_border_color .*$/active_border_color $active_border_color/g" "$kitty"
 sed -i "s/inactive_border_color .*$/inactive_border_color $inactive_border_color/g" "$kitty"
 
-ln -sf "$HOME/.cache/wal/colors-kitty.conf" "$HOME/.config/kitty/"
+copy_color "$HOME/.cache/wal/colors-kitty.conf" "$HOME/.config/kitty/colors-kitty.conf"
 
 # Apply new colors dynamically
 kill -SIGUSR1 $(pidof kitty)
 
 # setting rofi theme
-ln -sf "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/themes/rofi-colors.rasi"
+copy_color "$HOME/.cache/wal/colors-rofi-dark.rasi" "$HOME/.config/rofi/themes/rofi-colors.rasi"
 
 # setting waybar colors
-ln -sf "$HOME/.cache/wal/colors-waybar.css" "$HOME/.config/waybar/style/theme.css"
+copy_color "$HOME/.cache/wal/colors-waybar.css" "$HOME/.config/waybar/style/theme.css"
 
 # setting swaync colors
-[[ -n "$(command -v swaync)" ]] && ln -sf "$HOME/.cache/wal/colors-swaync.css" "$HOME/.config/swaync/colors.css"
+command -v swaync >/dev/null && copy_color "$HOME/.cache/wal/colors-swaync.css" "$HOME/.config/swaync/colors.css"
 
 # updated system update gum colors.
 sysupd_script="$scripts_dir/pkgupdate.sh"

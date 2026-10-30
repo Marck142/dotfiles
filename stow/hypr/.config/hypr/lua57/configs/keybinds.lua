@@ -46,10 +46,8 @@ hl.bind("SUPER + ALT + l", hl.dsp.exec_cmd(scriptsDir .. "/hyprlock.sh"))
 -- bind = $mainMod ALT, l, exec, $scriptsDir/dark_light.sh
 hl.bind("SUPER + CTRL + w", hl.dsp.exec_cmd(luaScriptsDir .. "/waybar-layout.sh"))
 hl.bind("SUPER + CTRL + e", hl.dsp.exec_cmd(scriptsDir .. "/edit-dotfiles.sh"))
-hl.bind("SUPER + ALT + b", hl.dsp.exec_cmd(scriptsDir .. "/shell.sh"))
 hl.bind("SUPER + CTRL + R", hl.dsp.exec_cmd("hyprctl reload && notify-send \"Done\" \"Hyprland reload\""))
-hl.bind("CTRL + u", hl.dsp.exec_cmd(scriptsDir .. "/systemupdate.sh --update"))
-hl.bind("SUPER + CTRL + U", hl.dsp.exec_cmd("kitty --title browser sh -c \"" .. scriptsDir .. "/hyprconf.sh\""))
+hl.bind("SUPER + SHIFT + U", hl.dsp.exec_cmd(scriptsDir .. "/systemupdate.sh --update"))
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd(scriptsDir .. "/startup.sh &> /dev/null"))
 hl.bind("SUPER + s", hl.dsp.exec_cmd("kitty --title settings --hold sh -c \"" .. luaScriptsDir .. "/settings.sh\""))
 hl.bind("SUPER + T", hl.dsp.exec_cmd(scriptsDir .. "/dark_light.sh"))
@@ -174,8 +172,5 @@ hl.bind("SUPER + CTRL + v", hl.dsp.exec_cmd("~/.config/hypr/scripts/vpn-toggle.s
 -- Бинды на сайты
 hl.bind("CTRL + SUPER + D", hl.dsp.exec_cmd("~/.config/hypr/scripts/apps.sh ds"))
 hl.bind("CTRL + SUPER + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/apps.sh gem"))
-hl.bind("CTRL + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/apps.sh porno"))
+hl.bind("SUPER + ALT + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/apps.sh porno"))
 hl.bind("SHIFT + SUPER + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/apps.sh github"))
-
--- Включение/выключение автокликера для диалогов Геншина
-hl.bind("ALT + M", hl.dsp.exec_cmd("~/.config/hypr/scripts/genshin_skip.sh"))

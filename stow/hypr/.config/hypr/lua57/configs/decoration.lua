@@ -17,17 +17,17 @@ hl.config({
         inactive_opacity = cfg.opacity_deact,
         fullscreen_opacity = 1.0,
         dim_inactive = true,
-        dim_strength = 0.1,
-        dim_special = 0.8,
+        dim_strength = 0.06,
+        dim_special = 0.4,
         shadow = {
-            enabled = false,
+            enabled = cfg.shadow_range > 0,
             range = cfg.shadow_range,
             render_power = 4,
-            --color =  $act_border
-            --color_inactive = $inact_border
+            color = "rgba(00000055)",
+            color_inactive = "rgba(00000033)",
         },
         blur = {
-            enabled = true,
+            enabled = cfg.blur_passes > 0,
             size = cfg.blur_size,
             passes = cfg.blur_passes,
             ignore_opacity = true,

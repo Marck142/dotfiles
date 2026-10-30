@@ -4,7 +4,6 @@
 # --- базовые инструменты
 base-devel
 git
-stow
 jq
 wget
 zip
@@ -18,6 +17,7 @@ networkmanager
 
 # --- Hyprland и окружение
 hyprland
+hyprpm
 hyprlock
 hypridle
 hyprpolkitagent
@@ -38,7 +38,6 @@ libnotify
 playerctl
 brightnessctl
 ddcutil
-awww
 sddm
 kitty
 thunar

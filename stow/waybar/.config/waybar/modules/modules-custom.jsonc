@@ -98,8 +98,8 @@
     "custom/wallpaper": {
         "format": "󰸉 ",
         "tooltip-format": "Left Click: Change wallpaper\nRight Click: Select Wallpaper",
-        "on-click": "~/.config/hypr/scripts/Wallpaper.sh",
-        "on-click-right": "~/.config/hypr/scripts/WallpaperSelect.sh thm2"
+        "on-click": "skwd wall toggle",
+        "on-click-right": "skwd wall list | jq -c '.wallpapers[] | {path: (if .type == \"video\" then .video_file else .name end), type: .type}' | shuf -n 1 | xargs -0 -I {} skwd wall apply '{}'"
     },
 
     // Theme (dark light)
