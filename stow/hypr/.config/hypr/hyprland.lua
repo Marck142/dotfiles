@@ -5,6 +5,7 @@
 -- so they survive a fresh login and a Hyprland reload.
 local user = assert(os.getenv("USER"), "USER is not set")
 local plugin_dir = "/var/cache/hyprpm/" .. user
+local state = require("lua57.configs.state")
 local function load_plugin(relative_path)
     local path = plugin_dir .. "/" .. relative_path
     local file = io.open(path, "r")
@@ -15,9 +16,12 @@ local function load_plugin(relative_path)
     end
 end
 
-load_plugin("hyprland-plugins/hyprfocus.so")
-load_plugin("dynamic-cursors/dynamic-cursors.so")
-load_plugin("omarchy-fx/omarchy-fx.so")
+if state.animations then
+    load_plugin("hyprland-plugins/hyprfocus.so")
+    load_plugin("dynamic-cursors/dynamic-cursors.so")
+    load_plugin("omarchy-fx/omarchy-fx.so")
+    load_plugin("HyprGlass/hyprglass.so")
+end
 
 require("lua57.configs.settings")
 require("lua57.configs.decoration")

@@ -59,8 +59,9 @@ install_hypr_plugins() {
   + hyprpm update
   + hyprpm add https://github.com/hyprwm/hyprland-plugins
   + hyprpm add https://github.com/VirtCode/hypr-dynamic-cursors
-  + hyprpm add https://github.com/stoneynutcase/omarchy-fx
-  + hyprpm enable hyprfocus dynamic-cursors omarchy-fx
+  + hyprpm add https://github.com/Marck142/omarchy-fx
+  + hyprpm add https://github.com/hyprnux/hyprglass
+  + hyprpm enable hyprfocus dynamic-cursors omarchy-fx hyprglass
 EOF
         return
     fi
@@ -72,11 +73,12 @@ EOF
     for repo in \
         https://github.com/hyprwm/hyprland-plugins \
         https://github.com/VirtCode/hypr-dynamic-cursors \
-        https://github.com/stoneynutcase/omarchy-fx; do
+        https://github.com/Marck142/omarchy-fx \
+        https://github.com/hyprnux/hyprglass; do
         printf 'Y\n' | hyprpm add "$repo" || true
     done
 
-    for plugin in hyprfocus dynamic-cursors omarchy-fx; do
+    for plugin in hyprfocus dynamic-cursors omarchy-fx hyprglass; do
         hyprpm enable "$plugin" || FAILED+=("hyprpm enable: $plugin")
     done
     hyprpm update || FAILED+=("hyprpm: сборка плагинов")

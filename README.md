@@ -25,7 +25,7 @@ cd ~/dotfiles
 
 ## После установки
 1. Положите обои в `~/Pictures/Wallpapers`, выберите их и запустите `~/.config/hypr/scripts/pywal.sh` для обновления цветов.
-2. Перезагрузитесь, выберите сессию Hyprland. Во время установки также ставятся и включаются плагины `hyprfocus`, `dynamic-cursors` и `omarchy-fx` через `hyprpm`.
+2. Перезагрузитесь, выберите сессию Hyprland. Во время установки также ставятся и включаются плагины `hyprfocus`, `dynamic-cursors`, `omarchy-fx` и `hyprglass` через `hyprpm`. `omarchy-fx` устанавливается из [Marck142/omarchy-fx](https://github.com/Marck142/omarchy-fx).
 
 ## Что подправить под себя
 - Видеодрайвер, микрокод процессора (`intel-ucode`/`amd-ucode`) и прочее железо в списки не входят.
