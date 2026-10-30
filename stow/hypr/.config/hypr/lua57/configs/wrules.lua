@@ -350,7 +350,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "wrules-windowrule-40",
-    opacity = tostring(cfg.opacity_act) .. " " .. tostring(cfg.opacity_deact),
+    opacity = "0.85 0.80",
     match = {
         tag = "terminal*",
     },

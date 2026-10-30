@@ -52,3 +52,12 @@ local _, omarchy_fx_missing = hl.get_config("plugin.omarchy_fx.shake_enabled")
 if not omarchy_fx_missing then
     hl.config({ plugin = { omarchy_fx = { shake_enabled = false } } })
 end
+
+if hl.plugin and hl.plugin.hyprglass then
+    local glass = hl.plugin.hyprglass
+    glass.config({
+        default_preset = "glass",
+        layers = { enabled = true },
+    })
+    glass.layer("waybar", { preset = "glass", mask_threshold = 0.05 })
+end
