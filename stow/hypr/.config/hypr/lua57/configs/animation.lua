@@ -41,7 +41,7 @@ if hl.plugin and hl.plugin.dynamic_cursors then
                 enabled = true,
                 mode = "stretch",
                 threshold = 4,
-                stretch = { limit = 4500 },
+                stretch = { limit = 5500 },
                 shake = { enabled = false, effects = false },
             },
         },
