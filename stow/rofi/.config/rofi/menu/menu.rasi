@@ -30,13 +30,13 @@ window {
     cursor:                      "default";
     spacing:                     0em;
     padding:                     0em;
-    border:                      @border-size;
-    border-color:                @foreground;
+    border:                      1px;
+    border-color:                @selected-normal-background;
     background-color:            @background;
-    border-radius:               @radius;
-    location: northWest;
+    border-radius:               24px;
+    location: southWest;
     x-offset: 15px;
-    y-offset: 15px;
+    y-offset: -15px;
 }
 mainbox {
     enabled:                     true;
@@ -76,8 +76,8 @@ button {
 }
 button selected {
     border-radius:               5em;
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }
 
 
@@ -87,7 +87,7 @@ listbox {
     spacing:                     0em;
     orientation:                 vertical;
     children:                    [ "dummy" , "listview" , "dummy" ];
-    background-color:            transparent;
+    background-color:            @normal-background;
 }
 listview {
     padding:                     1em;
@@ -104,7 +104,7 @@ listview {
     fixed-height:                true;
     fixed-columns:               true;
     cursor:                      "default";
-    background-color:            transparent;
+    background-color:            @normal-background;
     text-color:                  @foreground;
 }
 dummy {
@@ -140,4 +140,3 @@ element-text {
     background-color:            transparent;
     text-color:                  inherit;
 }
-

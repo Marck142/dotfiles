@@ -23,21 +23,21 @@ configuration {
 /* ---- Window ---- */
 window {
     width:                        600px;
-    x-offset: 15px;
-    y-offset: 15px;
+    x-offset: -15px;
+    y-offset: -15px;
     spacing:                      0px;
     padding:                      0px;
     margin:                       0px; 
     color:                        @foreground;
-    border:                       @border-size;
-    border-color:                 @foreground;
+    border:                       1px;
+    border-color:                 @selected-normal-background;
     cursor:                       "default";
     transparency:                 "real";
-    location: northWest;
-    anchor: northWest;
+    location: southeast;
+    anchor: southeast;
     fullscreen:                   false;
     enabled:                      true;
-    border-radius:                @radius;
+    border-radius:                24px;
     background-color:              transparent;
 }
 
@@ -70,7 +70,7 @@ inputbar {
     enabled:                      true;
     text-color:                   @foreground;
     spacing:                      10px;
-    padding:                      15px;
+    padding:                      14px 18px;
     border-radius:                0px;
     border-color:                 @foreground;
     background-color:             @background;
@@ -230,4 +230,3 @@ error-message {
     background-color:            @background;
     text-color:                  @foreground;
 }
-

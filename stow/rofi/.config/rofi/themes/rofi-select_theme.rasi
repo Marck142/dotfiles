@@ -30,9 +30,9 @@ window {
     enabled:                     true;
     margin:                      0px;
     padding:                     0px;
-    border:                      @border-size;
-    border-radius:               0px;
-    border-color:                @foreground;
+    border:                      1px;
+    border-radius:               24px;
+    border-color:                @selected-normal-background;
     background-color:            @background;
     cursor:                      "default";
 }
@@ -40,7 +40,7 @@ window {
 /*****----- Main Box -----*****/
 mainbox {
     enabled:                     true;
-    spacing:                     80px;
+    spacing:                     36px;
     margin:                      0px;
     padding:                     30px;
     border:                      0px solid;

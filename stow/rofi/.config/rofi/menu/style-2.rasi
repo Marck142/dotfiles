@@ -30,8 +30,8 @@ window {
     cursor:                      "default";
     spacing:                     0em;
     padding:                     0em;
-    border-color:                @foreground;
-    border:                      0px;
+    border-color:                @selected-normal-background;
+    border:                      1px;
     background-color:            transparent;
 }
 mainbox {
@@ -108,8 +108,8 @@ button {
     text-color:                  @foreground;
 }
 button selected {
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }
 
 // Elements //

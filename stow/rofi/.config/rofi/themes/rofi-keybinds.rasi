@@ -27,9 +27,9 @@ window {
     padding:                      0em;
     margin:                       0em; 
     color:                        @foreground;
-    border:                       @border-size;
-    border-color:                 @foreground;
-    border-radius:                @radius;
+    border:                       1px;
+    border-color:                 @selected-normal-background;
+    border-radius:                24px;
     cursor:                       "default";
     transparency:                 "real";
     fullscreen:                   false;

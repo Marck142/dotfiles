@@ -29,8 +29,8 @@ window {
     cursor:                      "default";
     spacing:                     0em;
     padding:                     0em;
-    border-color:                @foreground;
-    border-radius:               1em;
+    border-color:                @selected-normal-background;
+    border-radius:               24px;
     background-color:            @background;
 }
 mainbox {
@@ -115,8 +115,8 @@ button {
     text-color:                  @foreground;
 }
 button selected {
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }
 
 

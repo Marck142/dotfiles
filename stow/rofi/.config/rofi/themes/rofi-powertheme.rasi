@@ -30,16 +30,16 @@ window {
     padding:                      0px;
     margin:                       0px; 
     color:                        @foreground;
-    border:                       @border-size;
-    border-color:                 @foreground;
+    border:                       1px;
+    border-color:                 @selected-normal-background;
     cursor:                       "default";
     transparency:                 "real";
     location:                     center;
     anchor:                       center;
     fullscreen:                   false;
     enabled:                      true;
-    border-radius:                @radius;
-    background-color:             @background;
+    border-radius:                24px;
+    background-color:             @normal-background;
 }
 
 /* ---- Mainbox ---- */
@@ -71,10 +71,10 @@ inputbar {
     enabled:                      true;
     text-color:                   @foreground;
     spacing:                      10px;
-    padding:                      15px;
+    padding:                      18px;
     border-radius:                0px;
     border-color:                 @foreground;
-    background-color:             @background;
+    background-color:             @normal-background;
     children:                     [ "textbox-prompt-colon", "entry" ];
 }
 
@@ -161,8 +161,8 @@ element normal.active {
 }
 
 element selected.normal {
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }
 
 element selected.urgent {
@@ -231,4 +231,3 @@ error-message {
     background-color:            @background;
     text-color:                  @foreground;
 }
-

@@ -55,7 +55,7 @@ inputbar {
     spacing:                    10px;
     padding:                    15px;
     margin:                     10px;
-    border-radius:              30px;
+    border-radius:              24px;
 	background-color:		    @background;
     children:                   [ "textbox-prompt-colon", "entry" ];
 }
@@ -127,8 +127,8 @@ button {
 }
 
 button selected {
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }
 
 
@@ -170,6 +170,6 @@ element-text {
 
 element-text selected {
     border-radius:               20px;
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }

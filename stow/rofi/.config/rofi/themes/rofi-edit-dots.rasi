@@ -28,15 +28,15 @@ window {
     padding:                      0px;
     margin:                       0px; 
     color:                        @foreground;
-    border:                       @border-size;
-    border-color:                 @foreground;
+    border:                       1px;
+    border-color:                 @selected-normal-background;
     cursor:                       "default";
     transparency:                 "real";
     location:                     center;
     anchor:                       center;
     fullscreen:                   false;
     enabled:                      true;
-    border-radius:                @radius;
+    border-radius:                24px;
     background-color:             @background;
 }
 
@@ -229,4 +229,3 @@ error-message {
     background-color:            @background;
     text-color:                  @foreground;
 }
-

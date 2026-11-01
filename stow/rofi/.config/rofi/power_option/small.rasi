@@ -18,7 +18,7 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       800px;
+    width:                       760px;
     x-offset:                    0px;
     y-offset:                    0px;
 
@@ -26,9 +26,9 @@ window {
     enabled:                     true;
     margin:                      0px;
     padding:                     0px;
-    border:                      @border-size;
-    border-radius:               @radius;
-    border-color:                @foreground;
+    border:                      1px;
+    border-radius:               28px;
+    border-color:                @selected-normal-background;
     cursor:                      "default";
     background-color:            @background;
 }
@@ -36,9 +36,9 @@ window {
 /*****----- Main Box -----*****/
 mainbox {
     enabled:                     true;
-    spacing:                     15px;
+    spacing:                     22px;
     margin:                      0px;
-    padding:                     30px;
+    padding:                     28px;
     border:                      0px solid;
     border-radius:               0px;
     border-color:                @selected-active-background;
@@ -49,13 +49,13 @@ mainbox {
 /*****----- Inputbar -----*****/
 inputbar {
     enabled:                     true;
-    spacing:                     15px;
+    spacing:                     12px;
     margin:                      0px;
     padding:                     0px;
     border:                      0px;
-    border-radius:               0px;
+    border-radius:               16px;
     border-color:                @selected-active-background;
-    background-color:            transparent;
+    background-color:            @normal-background;
     text-color:                  @foreground;
     children:                    [ "textbox-prompt-colon", "prompt"];
 }
@@ -69,16 +69,16 @@ textbox-prompt-colon {
     expand:                      false;
     str:                         "";
     padding:                     12px 16px;
-    border-radius:               0px;
-    background-color:            @urgent-background;
-    text-color:                  @background;
+    border-radius:               16px;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
 }
 prompt {
     enabled:                     true;
     padding:                     12px;
-    border-radius:               0px;
-    background-color:            @active-background;
-    text-color:                  @background;
+    border-radius:               16px;
+    background-color:            transparent;
+    text-color:                  @foreground;
 }
 
 /*****----- Message -----*****/
@@ -120,10 +120,10 @@ listview {
     scrollbar:                   false;
     layout:                      vertical;
     reverse:                     false;
-    fixed-height:                false;
+    fixed-height:                true;
     fixed-columns:               true;
     
-    spacing:                     15px;
+    spacing:                     12px;
     margin:                      0px;
     padding:                     0px;
     border:                      0px solid;
@@ -142,16 +142,16 @@ element {
     spacing:                     0px;
     margin:                      0px;
     /* Делаем паддинги равномерными (20px со всех сторон), чтобы кнопка стала квадратной */
-    padding:                     20px 20px; 
+    padding:                     22px 20px;
     /* Полностью обнуляем рамки и боковые полосы */
     border:                      0px solid;
-    border-radius:               @radius; /* Округляем углы кнопок в стиле основной системы */
-    background-color:            transparent;
+    border-radius:               20px;
+    background-color:            @normal-background;
     text-color:                  @foreground;
     cursor:                      pointer;
 }
 element-text {
-    font:                        "feather bold 32";
+    font:                        "feather bold 30";
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      inherit;
@@ -160,7 +160,7 @@ element-text {
     horizontal-align:            0.5;
 }
 element selected.normal {
-    background-color:            @foreground;
-    text-color:                  @background;
+    background-color:            @selected-normal-background;
+    text-color:                  @foreground;
     border:                      0px solid; /* Контрольный сброс прямоугольников при выделении */
 }

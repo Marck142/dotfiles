@@ -1,5 +1,7 @@
 * {
     radius: 20px;
-    radius-second: 10px;
-    border-size: 3px;
+    radius-second: 12px;
+    border-size: 1px;
+    panel-padding: 20px;
+    item-padding: 12px;
 }
